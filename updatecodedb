@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function gen_tag()
+{
+    cd $1
+    ctags -R --c++-kinds=+p --fields=+iatKS --extra=+q .
+    cd -
+}
+
+function gen_cscope()
+{
+    cd $1
+    find . -name "*.php" -o -name "*.[ch]" > cscope.files
+    cscope -b
+    cd -
+}
+
+cd /work
+for d in "nuig/src" "biotector/" "nuig/www";
+do
+    gen_tag $d
+    gen_cscope $d
+done
+
