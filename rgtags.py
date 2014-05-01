@@ -36,6 +36,16 @@ class TagGen:
 		#else:
 			#return None
 
+def print_ioctl_tags(hdr):
+	f = open(hdr, 'rt')
+	for l in f:
+		try:
+			tag = TagGen(l, "DEV_IF_IOCTL.*\((\w+)")
+			print "%s\t%s\t%s\td" % (tag.get_tag(), hdr, tag.get_ex())
+		except TagGenNoTag:
+			pass
+	f.close()
+
 def print_enum_tags(hdr):
 	f = open(hdr, 'rt')
 	for l in f:
@@ -52,4 +62,5 @@ def print_enum_tags(hdr):
 	f.close()
 
 print_enum_tags(sys.argv[1])
+print_ioctl_tags(sys.argv[1])
 
